@@ -67,4 +67,3 @@ coverage/
 .github/workflows/.cache/
 
 merge-blocklist.js
-

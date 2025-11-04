@@ -108,9 +108,6 @@ The blocklist is hosted at: [https://github.com/glitchy1122/my-browser-blocklist
 
 ```
 glitch/
-├── .github/
-│   └── workflows/
-│       └── ci.yml              # GitHub Actions CI/CD workflow
 ├── main.js                     # Main Electron process
 ├── preload.js                  # Preload script for main window
 ├── settings-preload.js         # Preload script for settings window
@@ -153,24 +150,6 @@ Example with electron-builder:
 npm install --save-dev electron-builder
 npm run build
 ```
-
-## 🔄 Continuous Integration
-
-This project uses **GitHub Actions** for automated CI/CD:
-
-### CI Workflow Features
-
-- ✅ **Multi-platform Testing**: Runs on Windows, macOS, and Linux
-- ✅ **Multi-version Testing**: Tests with Node.js 18.x and 20.x
-- ✅ **Syntax Validation**: Checks JavaScript files for errors
-- ✅ **Security Audit**: Runs npm audit for vulnerability scanning
-- ✅ **Automated Runs**: Triggers on push and pull requests
-
-### Workflow Files
-
-- `.github/workflows/ci.yml` - Main CI/CD pipeline configuration
-
-View CI/CD status in the [Actions tab](https://github.com/glitchy1122/glitch/actions) on GitHub.
 
 ## 📝 Usage Tips
 
@@ -225,7 +204,6 @@ This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICEN
 
 ## 📊 Status
 
-![GitHub Actions](https://github.com/glitchy1122/glitch/workflows/CI/badge.svg)
 ![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 
 ---
