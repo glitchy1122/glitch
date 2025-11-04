@@ -1,100 +1,233 @@
-# Safe Browser
+# Glitch Browser
 
-A modern, secure Electron-based web browser with built-in content filtering and sleek design.
+A modern, secure Electron-based web browser with built-in content filtering, sleek design, and comprehensive browsing features.
 
-## Features
+> **"Heavenly browser for safe haven"**
 
-- 🛡️ **Content Filtering**: Block unwanted websites using a customizable blocklist
-- 🔍 **Omnibox**: Smart address bar with search functionality
-- 📜 **History**: Browse your browsing history
-- 🎨 **Modern UI**: Sleek, gradient-based design with smooth animations
-- ⚙️ **Settings**: Configure default browser settings
-- 🔒 **Privacy**: Secure browsing with context isolation and sandboxing
+## ✨ Features
 
-## Installation
+### 🛡️ Content Filtering
+- **Customizable Blocklist**: Block unwanted websites using a remote blocklist
+- **Real-time Filtering**: Websites are blocked before they load
+- **Visual Feedback**: Custom blocked page with clear messaging
+
+### 🔍 Smart Omnibox
+- **URL Navigation**: Direct URL entry with automatic protocol detection
+- **Search Integration**: Enter search terms to query Google
+- **Domain Detection**: Automatically adds `https://` for domains
+- **Real-time Updates**: Address bar updates as you navigate
+
+### 🧭 Navigation Controls
+- **Back/Forward**: Navigate through browsing history
+- **Home Button**: Quick return to homepage (Google)
+- **Reload**: Refresh current page with smooth rotation animation
+- **History**: View and manage browsing history in a beautiful modal window
+
+### ⚙️ Settings & Configuration
+- **Default Browser Setup**: Set Glitch as your system default browser
+- **Cross-platform Support**: Works on Windows, macOS, and Linux
+- **Settings Window**: Easy access to browser configuration
+
+### 🔒 Privacy & Security
+- **Context Isolation**: Secure communication between processes
+- **Sandboxing**: Enhanced security for web content
+- **No Tracking**: Your browsing history stays local
+
+### 🎨 Modern UI/UX
+- **Gradient Design**: Beautiful purple gradient navigation bar
+- **Smooth Animations**: Hover effects, transitions, and micro-interactions
+- **Icon-based Navigation**: Intuitive circular buttons with custom icons
+- **Glassmorphism**: Modern frosted glass effects
+- **Responsive Layout**: Adapts to window resizing
+
+### 📜 History Management
+- **Automatic Tracking**: Saves browsing history automatically
+- **Local Storage**: History stored locally on your device
+- **Easy Access**: Quick history view in modal window
+- **Search & Browse**: View URLs and page titles
+
+## 🚀 Installation
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+- **Node.js** (v18 or higher recommended)
+- **npm** (comes with Node.js)
 
 ### Setup
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```bash
-git clone https://github.com/glitchy1122/safe-browser.git
-cd safe-browser
+git clone https://github.com/glitchy1122/glitch.git
+cd glitch
 ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 ```bash
 npm install
 ```
 
-3. Run the application:
+3. **Run the application:**
 ```bash
 npm start
 ```
 
-## Configuration
+## ⚙️ Configuration
 
-### Blocklist URL
+### Blocklist Setup
 
-Update the `BLOCKLIST_URL` in `main.js` to point to your blocklist JSON file:
+The browser uses a remote blocklist for content filtering. Update the `BLOCKLIST_URL` in `main.js`:
 
 ```javascript
 const BLOCKLIST_URL = 'https://glitchy1122.github.io/my-browser-blocklist/json';
 ```
 
-The blocklist should be a JSON array of domain names:
+**Blocklist Format:**
+The blocklist should be a JSON array of domain names (without protocols):
+
 ```json
 [
   "example.com",
-  "blocked-site.org"
+  "blocked-site.org",
+  "another-domain.com"
 ]
 ```
 
-## Development
+**Blocklist Repository:**
+The blocklist is hosted at: [https://github.com/glitchy1122/my-browser-blocklist](https://github.com/glitchy1122/my-browser-blocklist)
 
-### Project Structure
+### Setting as Default Browser
+
+1. Click the **Settings** button (⚙) in the navigation bar
+2. Click **"Set as Default Browser"**
+3. Follow the platform-specific instructions:
+   - **Windows**: May require administrator privileges or opening Windows Settings
+   - **macOS**: Opens System Preferences
+   - **Linux**: Instructions provided in dialog
+
+## 📁 Project Structure
 
 ```
-Browser/
-├── main.js              # Main Electron process
-├── preload.js           # Preload script for main window
-├── index.html           # Main UI navigation bar
-├── settings.html        # Settings window
-├── history.html         # History window
-├── blocked.html         # Blocked page template
-└── package.json         # Project dependencies
+glitch/
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions CI/CD workflow
+├── main.js                     # Main Electron process
+├── preload.js                  # Preload script for main window
+├── settings-preload.js         # Preload script for settings window
+├── history-preload.js          # Preload script for history window
+├── history-render.js           # History window renderer script
+├── index.html                  # Main navigation UI
+├── settings.html               # Settings window UI
+├── history.html                # History window UI
+├── blocked.html                # Blocked page template
+├── blocklist.json              # Local blocklist example
+├── package.json                # Project dependencies
+├── .gitignore                  # Git ignore rules
+└── README.md                   # This file
 ```
+
+## 🛠️ Development
+
+### Tech Stack
+
+- **Electron** ^39.0.0 - Cross-platform desktop framework
+- **Node.js** - JavaScript runtime
+- **HTML/CSS/JavaScript** - UI and rendering
+
+### Key Components
+
+- **Main Process** (`main.js`): Handles window management, IPC, and system integration
+- **Renderer Process** (`index.html`): UI navigation bar
+- **BrowserView**: Web content rendering
+- **Preload Scripts**: Secure bridge between main and renderer processes
 
 ### Building for Production
 
-Currently configured for development. To build for production, consider using:
+To create distributable packages, consider using:
 
-- [electron-builder](https://www.electron.build/)
-- [electron-forge](https://www.electronforge.io/)
+- **[electron-builder](https://www.electron.build/)** - Popular choice for packaging
+- **[electron-forge](https://www.electronforge.io/)** - Complete tooling solution
 
-## Continuous Integration
+Example with electron-builder:
+```bash
+npm install --save-dev electron-builder
+npm run build
+```
 
-This project uses GitHub Actions for CI/CD. The workflow:
+## 🔄 Continuous Integration
 
-- Runs on push and pull requests
-- Tests the application build
-- Validates code quality
+This project uses **GitHub Actions** for automated CI/CD:
 
-See `.github/workflows/ci.yml` for details.
+### CI Workflow Features
 
-## License
+- ✅ **Multi-platform Testing**: Runs on Windows, macOS, and Linux
+- ✅ **Multi-version Testing**: Tests with Node.js 18.x and 20.x
+- ✅ **Syntax Validation**: Checks JavaScript files for errors
+- ✅ **Security Audit**: Runs npm audit for vulnerability scanning
+- ✅ **Automated Runs**: Triggers on push and pull requests
 
-ISC
+### Workflow Files
 
-## Author
+- `.github/workflows/ci.yml` - Main CI/CD pipeline configuration
 
-glitchy1122
+View CI/CD status in the [Actions tab](https://github.com/glitchy1122/glitch/actions) on GitHub.
 
-## Contributing
+## 📝 Usage Tips
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Navigation
+- **Type URLs**: Enter full URLs like `https://example.com` or just `example.com`
+- **Search**: Type any text without a domain to search Google
+- **Keyboard**: Press Enter in the omnibox to navigate
 
+### History
+- Click the **History** button (📜) to view browsing history
+- History is automatically saved for the last 1000 entries
+- History is stored locally and never shared
+
+### Blocked Sites
+- When a site is blocked, a custom page is displayed
+- The blocklist is loaded from the configured URL on startup
+- Blocked sites are logged to the console
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Commit your changes**: `git commit -m 'Add amazing feature'`
+4. **Push to the branch**: `git push origin feature/amazing-feature`
+5. **Open a Pull Request**
+
+### Development Guidelines
+
+- Follow existing code style
+- Add comments for complex logic
+- Test your changes thoroughly
+- Update documentation as needed
+
+## 📄 License
+
+This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+
+**glitchy1122**
+
+- GitHub: [@glitchy1122](https://github.com/glitchy1122)
+- Repository: [https://github.com/glitchy1122/glitch](https://github.com/glitchy1122/glitch)
+
+## 🙏 Acknowledgments
+
+- Built with [Electron](https://www.electronjs.org/)
+- Inspired by modern browser design principles
+- Uses system fonts for native look and feel
+
+## 📊 Status
+
+![GitHub Actions](https://github.com/glitchy1122/glitch/workflows/CI/badge.svg)
+![License](https://img.shields.io/badge/license-GPL--3.0-blue)
+
+---
+
+**Made with ❤️ for a safer browsing experience**
