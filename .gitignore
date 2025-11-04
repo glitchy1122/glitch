@@ -66,4 +66,5 @@ coverage/
 # GitHub Actions cache
 .github/workflows/.cache/
 
+merge-blocklist.js
 

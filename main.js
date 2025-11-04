@@ -26,9 +26,24 @@ async function loadBlockList() {
         });
         response.on('end', () => {
           try {
-            const domains = JSON.parse(data);
-            blockList = new Set(domains);
-            console.log(`Blocklist loaded with ${blockList.size} domains.`);
+            const parsed = JSON.parse(data);
+            
+            // Handle both array format and structured object format
+            let allDomains = [];
+            if (Array.isArray(parsed)) {
+              // Simple array format
+              allDomains = parsed;
+            } else if (typeof parsed === 'object') {
+              // Structured format with categories
+              Object.keys(parsed).forEach(key => {
+                if (Array.isArray(parsed[key])) {
+                  allDomains = allDomains.concat(parsed[key]);
+                }
+              });
+            }
+            
+            blockList = new Set(allDomains);
+            console.log(`Blocklist loaded with ${blockList.size} unique domains.`);
             resolve();
           } catch (error) {
             console.error(`Failed to parse blocklist: ${error.message}`);
@@ -97,18 +112,53 @@ function createWindow() {
   });
 
   // --- TOP-NOTCH FILTER ---
-  view.webContents.session.webRequest.onBeforeRequest((details, callback) => {
-    const url = new URL(details.url);
-    const domain = url.hostname;
+  // Block all resources (main pages, images, videos, scripts, etc.) from blocked domains
+  // This includes: mainFrame, subFrame, stylesheet, script, image, media (video/audio), font, object, etc.
+  view.webContents.session.webRequest.onBeforeRequest(
+    {
+      urls: ['<all_urls>'] // Block all types of URLs including videos and images
+    },
+    (details, callback) => {
+      try {
+        const url = new URL(details.url);
+        const domain = url.hostname;
+        const resourceType = details.resourceType || 'other';
 
-    if (blockList.has(domain)) {
-      console.log(`BLOCKED: ${domain}`);
-      view.webContents.loadFile(path.join(__dirname, 'blocked.html'));
-      callback({ cancel: true });
-    } else {
-      callback({ cancel: false });
+        if (blockList.has(domain)) {
+          // Determine if this is a media/video resource
+          const isMedia = resourceType === 'media' || 
+                         resourceType === 'object' ||
+                         details.url.match(/\.(mp4|webm|ogg|avi|mov|mkv|flv|wmv|m4v|3gp)(\?|$)/i) ||
+                         details.url.includes('/video/') ||
+                         details.url.includes('/stream/');
+          
+          // Log what's being blocked with emphasis on media
+          if (isMedia) {
+            console.log(`BLOCKED VIDEO/MEDIA: ${domain} (${resourceType}) - ${details.url}`);
+          } else {
+            console.log(`BLOCKED: ${domain} (${resourceType}) - ${details.url}`);
+          }
+          
+          // Only redirect to blocked page for main frame requests (main page navigation)
+          // For subresources (images, videos, scripts, etc.), just cancel them silently
+          if (resourceType === 'mainFrame') {
+            // This is a main page navigation - show blocked page
+            view.webContents.loadFile(path.join(__dirname, 'blocked.html'));
+          }
+          
+          // Cancel all requests from blocked domains (main pages, images, videos, media, etc.)
+          // This prevents videos from loading in video tabs, embedded players, or any media elements
+          callback({ cancel: true });
+        } else {
+          callback({ cancel: false });
+        }
+      } catch (error) {
+        // If URL parsing fails, allow the request
+        console.error('Error parsing URL in filter:', error);
+        callback({ cancel: false });
+      }
     }
-  });
+  );
 
   // --- SAVE HISTORY ---
   view.webContents.on('did-finish-load', () => {
