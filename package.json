@@ -1,0 +1,27 @@
+{
+  "name": "safe-browser",
+  "version": "1.0.0",
+  "description": "A modern, secure Electron-based web browser with built-in content filtering",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "electron",
+    "browser",
+    "web-browser",
+    "content-filter",
+    "safe-browsing"
+  ],
+  "author": "glitchy1122",
+  "license": "ISC",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glitchy1122/safe-browser.git"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0"
+  }
+}

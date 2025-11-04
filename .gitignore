@@ -1,0 +1,69 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron build outputs
+dist/
+build/
+out/
+*.asar
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output/
+
+# Electron user data (exclude user-specific files)
+# This will be in AppData on Windows, Application Support on macOS
+# Only ignore if you want to exclude user history/data
+# Uncomment the line below if you want to exclude user data:
+# userData/
+
+# User-specific history file (optional - uncomment to exclude)
+# history.json
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# GitHub Actions cache
+.github/workflows/.cache/
+
+
